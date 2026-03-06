@@ -2,69 +2,78 @@ from django.shortcuts import render
 from rest_framework import generics
 from api.models import *
 from api.serializers import *
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.db.models import Prefetch
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
-# Create your views here.
 
-class Hero_content_view(generics.RetrieveAPIView):
-    serializer_class = Hero_content_serializer
-    
-    def get_object(self):
-        queryset = Hero_content.objects.first()
-        return queryset
-    
-    
-class Hero_video_section_view(generics.RetrieveAPIView):
-    serializer_class = Hero_video_section_serializer
-    
-    def get_object(self):
-        queryset = Hero_video_section.objects.first()
-        return queryset
-    
 
-class Partner_logos_view(generics.ListAPIView):
-    queryset = Partner_logos.objects.all()
-    serializer_class = Partner_logos_serializer
+@api_view(['GET'])
+def homepage(request):
+    context = {'request': request}
     
+    hero = Hero_content.objects.prefetch_related('features', 'CTA').first()
+    hero_video = Hero_video_section.objects.first()
+    partners = Partner_logos.objects.all()
+    services = Service_section.objects.prefetch_related('services').first()
+    testimonials = Testimonials_section.objects.prefetch_related('testimonials').first()
+    why_choose = Whychoose_section.objects.prefetch_related(
+        'cards', 'points', 'counts', 'achievements'
+    ).first()
+    insights = Insights_section.objects.prefetch_related('videos').first()
+    estimator = Home_calculator_section.objects.first()
+    contact = Contact_card_section.objects.first()
     
-class Service_section_view(generics.RetrieveAPIView):
-    serializer_class = Service_section_serializer
-    
-    def get_object(self):
-        queryset = Service_section.objects.first()
-        return queryset
-    
-    
-class Whychoose_us_section_view(generics.RetrieveAPIView):
-    serializer_class = Whychoose_us_section_serializer
-    
-    def get_object(self):
-        queryset = Whychoose_section.objects.first()
-        return queryset
-    
-    
-class Insights_section_view(generics.RetrieveAPIView):
-    serializer_class = Insights_section_serializer
-    
-    def get_object(self):
-        queryset = Insights_section.objects.first()
-        return queryset
-    
-    
-class Testimonials_section_view(generics.RetrieveAPIView):
-    serializer_class = Testimonial_section_serializer
-    
-    def get_object(self):
-        queryset = Testimonials_section.objects.first()
-        return queryset
-    
-    
-class Home_calculator_section_view(generics.RetrieveAPIView):
-    serializer_class = Home_calculator_serializer
-    
-    def get_object(self):
-        queryset = Home_calculator_section.objects.first()
-        return queryset
+    data = {
+        "hero_section": Hero_content_serializer(hero).data if hero else None,
+        "hero_video_section": Hero_video_section_serializer(hero_video).data if hero_video else None,
+        "partners_section": Partner_logos_serializer(partners, many=True,context=context).data,
+        "services_section": Service_section_serializer(services,context=context).data,
+        'whyChooseUs_section': Whychoose_us_section_serializer(why_choose,context=context).data,
+        'insight_section': Insights_section_serializer(insights).data,
+        'estimator_section':Home_calculator_serializer(estimator).data,
+        "testimonials": Testimonial_section_serializer(testimonials).data,
+        'contact': Contact_card_serializer(contact).data
+    }
 
+    return Response(data)
+
+
+
+
+@api_view(['GET'])
+def aboutpage(request):
+    context = {'request': request}
+    
+    firstSection = About_first_section.objects.first()
+    mission_vission = Mission_vission_section.objects.prefetch_related('mission_vission_items').first()
+    core_Values = Our_core_values_section.objects.prefetch_related('core_values').first()
+    team = Team_section.objects.prefetch_related('members').first()
+    
+    
+    data = {
+        "firstSectionData": About_first_Section_serializer(firstSection,context=context).data if firstSection else None,
+        "mission_vission_Data": Mission_vission_section_serializer(mission_vission).data if mission_vission else None,
+        "core_Values_Data": Core_values_section_serializer(core_Values).data,
+        "teamData": Team_section_serializer(team,context=context).data,
+    }
+
+    return Response(data)
+
+@api_view(['GET'])
+def contact_page(request):
+    contact = Contact_card_section.objects.first()
+    services = Service_category.objects.all()
+    data = {
+        'contact' : Contact_card_serializer(contact).data,
+        'service' : Home_page_service_category(services,many=True).data
+    }
+    return Response(data)
+    
 
 class Contact_section_view(generics.RetrieveAPIView):
     serializer_class = Contact_card_serializer
@@ -74,45 +83,17 @@ class Contact_section_view(generics.RetrieveAPIView):
         return queryset
     
     
-class About_section_view(generics.RetrieveAPIView):
-    serializer_class = About_first_Section_serializer
+
     
-    def get_object(self):
-        queryset = About_first_section.objects.first()
-        return queryset
+class BlogPagination(PageNumberPagination):
+    page_size = 6
     
+class Blog_section_view(generics.ListAPIView):
+    serializer_class = Blogs_serializer
+    pagination_class = BlogPagination
     
-    
-class Mission_vission_section_view(generics.RetrieveAPIView):
-    serializer_class = Mission_vission_section_serializer
-    
-    def get_object(self):
-        queryset = Mission_vission_section.objects.first()
-        return queryset
-    
-    
-class Core_values_section_view(generics.RetrieveAPIView):
-    serializer_class = Core_values_section_serializer
-    
-    def get_object(self):
-        queryset = Our_core_values_section.objects.first()
-        return queryset
-    
-    
-class Team_section_view(generics.RetrieveAPIView):
-    serializer_class = Team_section_serializer
-    
-    def get_object(self):
-        queryset = Team_section.objects.first()
-        return queryset
-    
-    
-    
-class Blog_section_view(generics.RetrieveAPIView):
-    serializer_class = Blog_section_serializer
-    
-    def get_object(self):
-        queryset = Blog_section.objects.first()
+    def get_queryset(self):
+        queryset = Blog.objects.filter(status='published')
         return queryset
     
 class Menu_view(generics.ListAPIView):
@@ -120,3 +101,28 @@ class Menu_view(generics.ListAPIView):
     
     def get_queryset(self):
         return Menu.objects.filter(parent__isnull=True)
+    
+    
+class Header_view(generics.RetrieveAPIView):
+    serializer_class = Header_serializer
+    
+    def get_object(self):
+        return Header.objects.first()
+    
+@method_decorator(cache_page(60), name='dispatch')
+class Service_category_detail_view(generics.RetrieveAPIView):
+    queryset = Service_category.objects.all()
+    serializer_class = Services_category_serializer
+    lookup_field = 'slug'
+    
+@method_decorator(cache_page(60), name='dispatch')
+class Service_detail_view(generics.RetrieveAPIView):
+    queryset = Services.objects.all()
+    serializer_class = Services_serializer
+    lookup_field = 'slug'
+    
+    
+class Blog_detail_view(generics.RetrieveAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = Blogs_serializer
+    lookup_field = 'slug'

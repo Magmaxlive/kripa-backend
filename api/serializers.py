@@ -28,23 +28,61 @@ class Hero_video_section_serializer(serializers.ModelSerializer):
         
         
 class Partner_logos_serializer(serializers.ModelSerializer):
+
     class Meta:
         model = Partner_logos
         fields = "__all__"
         
+
+        
+class Services_category_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service_category
+        fields = "__all__"
+        
+        
+class Category_faq_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category_faq
+        fields = "__all__"      
+        
+        
+class Services_faq_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service_faq
+        fields = "__all__"     
         
 class Services_serializer(serializers.ModelSerializer):
+    category_title = serializers.CharField(source="category.title", read_only=True)
+    category_slug = serializers.CharField(source="category.slug", read_only=True)
+    faq = Services_faq_serializer(many=True,read_only=True)
+
     class Meta:
         model = Services
         fields = "__all__"
         
         
+class Home_page_service_category(serializers.ModelSerializer):
+    class Meta:
+        model = Service_category
+        fields = "__all__"
+        
+class Services_category_serializer(serializers.ModelSerializer):
+    services = Services_serializer(many=True,read_only=True)
+    faq = Category_faq_serializer(many=True,read_only=True)
+    class Meta:
+        model = Service_category
+        fields = "__all__"
+        
 class Service_section_serializer(serializers.ModelSerializer):
-    services = Services_serializer(many=True,read_only = True)
+    services = Home_page_service_category(many=True,read_only = True)
     
     class Meta:
         model = Service_section
         fields = "__all__"
+        
+        
+
         
 
 class Whychooseus_points_serializer(serializers.ModelSerializer):
@@ -190,20 +228,21 @@ class Team_section_serializer(serializers.ModelSerializer):
         model = Team_section
         fields = "__all__"
         
-  
+class Blog_category_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog_category
+        fields = "__all__"
         
 class Blogs_serializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField()
+    category = Blog_category_serializer()
     class Meta :
-        model = Blogs
+        model = Blog
         fields = "__all__"
         
 # blogs
         
-class Blog_section_serializer(serializers.ModelSerializer):
-    blogs = Blogs_serializer(many=True,read_only=True)
-    class Meta:
-        model = Blog_section
-        fields = "__all__"       
+      
       
 
 # menus
@@ -216,5 +255,19 @@ class Menu_serializer(serializers.ModelSerializer):
         fields = ['id','label','link','submenu']
         
     def get_submenu(self,obj):
-        children = obj.submenu.filter(is_active=True)
+        children = obj.submenu.filter(is_active=True).order_by('order')
         return Menu_serializer(children,many=True).data
+    
+    
+class Header_serializer(serializers.ModelSerializer):
+    menu = serializers.SerializerMethodField()
+    class Meta :
+        model = Header
+        fields = "__all__"
+        
+        
+    def get_menu(self,obj):
+        root_items = obj.menu.filter(parent=None,is_active=True).order_by('order')
+        return Menu_serializer(root_items,many=True).data
+        
+        

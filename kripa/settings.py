@@ -13,6 +13,14 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 
+CORS_ALLOWED_ORIGINS = [
+    origin
+    for origin in [os.getenv("CORS_ALLOWED_ORIGINS")]
+    if origin
+]
+
+CORS_ALLOW_CREDENTIALS = True 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -45,17 +53,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'api.apps.ApiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
     'corsheaders',
     'rest_framework',
     'frontend_api',
-    'admin_api'
+    'admin_api',
+    'ckeditor',
+    'ckeditor_uploader'
 ]
 
 MIDDLEWARE = [
@@ -99,6 +109,18 @@ DATABASES = {
     }
 }
 
+CKEDITOR_UPLOAD_PATH = 'uploads/ckeditor/'  
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'extraPlugins': 'image2', 
+        'height': 400,
+        'width': '100%',
+    }
+}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -135,3 +157,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 
+NEXTJS_URL = "http://localhost:3000"  
+REVALIDATION_SECRET = "NBd4A3fsZqtpMz1Or9UWgX6P"  

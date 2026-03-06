@@ -1,5 +1,8 @@
 from django.contrib import admin
 from .models import *
+from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from django import forms
 
 
 # Register your models here.
@@ -53,7 +56,7 @@ class Partner_logos_admin(admin.ModelAdmin):
 admin.site.register(Partner_logos,Partner_logos_admin)
 
 class ServiceInline(admin.StackedInline):
-    model = Services
+    model = Service_category
     extra = 1
     can_delete = True
     max_num = None
@@ -62,6 +65,7 @@ class ServiceInline(admin.StackedInline):
 class Service_section_admin(admin.ModelAdmin):
     list_display = ('minor_heading','main_heading','paragraph',)
     inlines = [ServiceInline]
+    
     
     def has_add_permission(self, request):
         return not Service_section.objects.exists()
@@ -194,8 +198,17 @@ class Contact_section_admin(admin.ModelAdmin):
 admin.site.register(Contact_card_section,Contact_section_admin)
 
 
+class AboutForm(forms.ModelForm):
+    paragraph = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = About_first_section
+        fields = '__all__'
+
+
 class About_admin(admin.ModelAdmin):
     list_display = ('minor_heading','main_heading','paragraph','button_text','button_link','button_icon')
+    form = AboutForm
     
     def has_add_permission(self, request):
         return not About_first_section.objects.exists()
@@ -241,8 +254,14 @@ class Core_values_Section_admin(admin.ModelAdmin):
     
 admin.site.register(Our_core_values_section,Core_values_Section_admin)
 
+class teamMemberForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorWidget(),required=False)
 
+    class Meta:
+        model = Team_members
+        fields = '__all__'
 class Team_members_inline(admin.StackedInline):
+    form = teamMemberForm
     model = Team_members
     extra = 1
     can_delete = True
@@ -260,27 +279,80 @@ class Team_section_admin(admin.ModelAdmin):
     
     
 admin.site.register(Team_section,Team_section_admin)
+admin.site.register(Core_value_items)
 
 
-class Blogs_inline(admin.StackedInline):
-    model = Blogs
-    extra = 1
-    can_delete = True
 
-class Blogs_section_admin(admin.ModelAdmin):
-    list_display = ('minor_heading','main_heading','paragraph')
-    inlines = [Blogs_inline]
-
-    def has_add_permission(self, request):
-        return not Blog_section.objects.exists()
-    
-    def has_delete_permission(self, request, obj = None):
-        return False
-    
-    
-admin.site.register(Blog_section,Blogs_section_admin)
 
 class Menu_admin(admin.ModelAdmin):
     list_display = ('label','link','parent')
     
 admin.site.register(Menu,Menu_admin)
+
+class Header_admin(admin.ModelAdmin):
+    list_display = ('logo','button_text','button_link')
+admin.site.register(Header,Header_admin)
+
+class ServiceCategoryForm(forms.ModelForm):
+    brief_description = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = Service_category
+        fields = '__all__'
+
+class Service_category_Admin(admin.ModelAdmin):
+    form = ServiceCategoryForm
+    fieldsets = (
+        ("Basic Info", {
+            'fields': ('title', 'slug', 'cover_image', 'short_description', 'service_section')
+        }),
+        ("Page Settings", {
+            'classes': ('collapse',),  # collapsible section
+            'fields': ('banner_image', 'minor_heading', 'main_heading', 'brief_description')
+        }),
+
+)
+
+admin.site.register(Service_category,Service_category_Admin)
+
+class ServiceForm(forms.ModelForm):
+    brief_description = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = Services
+        fields = '__all__'
+
+
+class Service_admin(admin.ModelAdmin):
+    form = ServiceForm
+    fieldsets = (
+        ("Basic Info", {
+            'fields': ('title', 'slug', 'cover_image', 'short_description', 'category')
+        }),
+        ("Page Settings", {
+            'classes': ('collapse',),  # collapsible section
+            'fields': ('banner_image', 'minor_heading', 'main_heading', 'brief_description')
+        }),
+
+)
+    
+admin.site.register(Services,Service_admin)
+admin.site.register(Category_faq)
+admin.site.register(Service_faq)
+
+
+admin.site.register(Blog_category)
+
+class BlogForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorUploadingWidget()) 
+
+    class Meta:
+        model = Blog
+        fields = '__all__'
+        
+class BlogAdmin(admin.ModelAdmin):
+    form = BlogForm
+    
+    list_display = ('title','slug','author','published_at','status')
+    
+admin.site.register(Blog,BlogAdmin)
