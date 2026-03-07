@@ -271,7 +271,7 @@ class Header_serializer(serializers.ModelSerializer):
         return Menu_serializer(root_items,many=True).data
         
      
-# footer
+# footer section
 
 class Footer_email_serializer(serializers.ModelSerializer) :
     class Meta :
