@@ -1,8 +1,13 @@
 asgiref==3.11.1
+certifi==2026.2.25
+charset-normalizer==3.4.4
 colorama==0.4.6
 Django==6.0.2
+django-ckeditor==6.7.3
 django-cors-headers==4.9.0
+django-js-asset==3.1.2
 djangorestframework==3.16.1
+idna==3.11
 iniconfig==2.3.0
 Jinja2==3.1.6
 MarkupSafe==3.0.3
@@ -14,5 +19,7 @@ pytest==9.0.2
 pytest-django==4.12.0
 pytest-html==4.2.0
 pytest-metadata==3.1.1
+requests==2.32.5
 sqlparse==0.5.5
 tzdata==2025.3
+urllib3==2.6.3
