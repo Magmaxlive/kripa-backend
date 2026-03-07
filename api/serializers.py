@@ -270,4 +270,22 @@ class Header_serializer(serializers.ModelSerializer):
         root_items = obj.menu.filter(parent=None,is_active=True).order_by('order')
         return Menu_serializer(root_items,many=True).data
         
+     
+# footer
+
+class Footer_email_serializer(serializers.ModelSerializer) :
+    class Meta :
+        model = Footer_emails
+        fields = "__all__"  
         
+
+class Footer_links_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Footer_links
+        fields = "__all__"
+        
+        
+class Footer_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Footer
+        fields = "__all__"

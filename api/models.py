@@ -473,3 +473,25 @@ class Blog(models.Model):
         
     def __str__(self):
         return self.title
+    
+    
+class Footer(models.Model):
+    logo=models.FileField(upload_to='logos/')
+    description=models.TextField()
+    
+    def __str__(self):
+        return "Footer Section"
+    
+class Footer_emails(models.Model):
+    email = models.EmailField()
+    
+    def __str__(self):
+        return self.email
+    
+    
+class Footer_links(models.Model):
+    label = models.CharField(max_length=50)
+    link = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.label

@@ -356,3 +356,17 @@ class BlogAdmin(admin.ModelAdmin):
     list_display = ('title','slug','author','published_at','status')
     
 admin.site.register(Blog,BlogAdmin)
+
+class Footer_Form(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorWidget())
+    
+    class Meta:
+        model = Footer
+        fields = "__all__"
+
+class Footer_Admin(admin.ModelAdmin):
+    form = Footer_Form
+
+admin.site.register(Footer,Footer_Admin)
+admin.site.register(Footer_emails)
+admin.site.register(Footer_links)

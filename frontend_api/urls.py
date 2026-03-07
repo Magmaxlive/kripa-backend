@@ -3,7 +3,6 @@ from .views import *
 
 urlpatterns = [
     path('homepage/',homepage),
-    path('contact_section/',Contact_section_view.as_view(),name="contact_section"),
     
     # about page
     
@@ -25,6 +24,7 @@ urlpatterns = [
     
     # contact page
     
-    path('contact_page/',contact_page)
+    path('contact_page/',contact_page),
+    path('footer/',footer,name='footer')
 
 ]

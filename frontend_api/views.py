@@ -11,7 +11,6 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
 
-
 @api_view(['GET'])
 def homepage(request):
     context = {'request': request}
@@ -75,14 +74,6 @@ def contact_page(request):
     return Response(data)
     
 
-class Contact_section_view(generics.RetrieveAPIView):
-    serializer_class = Contact_card_serializer
-    
-    def get_object(self):
-        queryset = Contact_card_section.objects.first()
-        return queryset
-    
-    
 
     
 class BlogPagination(PageNumberPagination):
@@ -109,13 +100,12 @@ class Header_view(generics.RetrieveAPIView):
     def get_object(self):
         return Header.objects.first()
     
-@method_decorator(cache_page(60), name='dispatch')
 class Service_category_detail_view(generics.RetrieveAPIView):
     queryset = Service_category.objects.all()
     serializer_class = Services_category_serializer
     lookup_field = 'slug'
     
-@method_decorator(cache_page(60), name='dispatch')
+
 class Service_detail_view(generics.RetrieveAPIView):
     queryset = Services.objects.all()
     serializer_class = Services_serializer
@@ -126,3 +116,24 @@ class Blog_detail_view(generics.RetrieveAPIView):
     queryset = Blog.objects.all()
     serializer_class = Blogs_serializer
     lookup_field = 'slug'
+    
+    
+
+    
+@api_view(['GET'])
+def footer(request):
+    context = {'request': request}
+    
+    footer = Footer.objects.first()
+    emails = Footer_emails.objects.all()
+    links = Footer_links.objects.all()
+    contact = Contact_card_section.objects.first()
+    
+    data = {
+        'footer' : Footer_Serializer(footer,context=context).data,
+        'emails' : Footer_email_serializer(emails,many=True).data,
+        'links' : Footer_links_serializer(links,many=True).data,
+        'contact' : Contact_card_serializer(contact).data
+    }
+    
+    return Response(data)
