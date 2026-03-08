@@ -55,16 +55,11 @@ class Partner_logos_admin(admin.ModelAdmin):
     list_display = ("name","logo")
 admin.site.register(Partner_logos,Partner_logos_admin)
 
-class ServiceInline(admin.StackedInline):
-    model = Service_category
-    extra = 1
-    can_delete = True
-    max_num = None
+
 
 
 class Service_section_admin(admin.ModelAdmin):
     list_display = ('minor_heading','main_heading','paragraph',)
-    inlines = [ServiceInline]
     
     
     def has_add_permission(self, request):
@@ -76,30 +71,8 @@ class Service_section_admin(admin.ModelAdmin):
 admin.site.register(Service_section,Service_section_admin)
 
 
-class whychoose_points_inline(admin.StackedInline):
-    model = WhyChoose_Points
-    extra = 1
-    can_delete = True
-    
-    
-class whychoose_counts_inline(admin.StackedInline):
-    model = Whychoose_Counter
-    extra = 1
-    can_delete = True
-    
-    
-class whychoose_cards_inline(admin.StackedInline):
-    model = Whychoose_us_cards
-    extra = 1
-    can_delete = True
-    
-class achievements_inline(admin.StackedInline):
-    model = Achievements
-    extra = 1
-    can_delete = True
 
 class Whychoose_section_admin(admin.ModelAdmin):
-    inlines = [whychoose_points_inline,whychoose_counts_inline,whychoose_cards_inline,achievements_inline]
     list_display = ('minor_heading','main_heading','paragraph','button_icon','button_text','button_link')
     
     def has_add_permission(self, request):
@@ -109,15 +82,15 @@ class Whychoose_section_admin(admin.ModelAdmin):
         return False
     
 admin.site.register(Whychoose_section,Whychoose_section_admin)
+admin.site.register(Whychoose_Counter)
+admin.site.register(WhyChoose_Points)
+admin.site.register(Whychoose_us_cards)
+admin.site.register(Achievements)
+admin.site.register(Insights_video)
 
-class Insights_video_inline(admin.StackedInline):
-    model = Insights_video
-    extra = 1
-    can_delete = True
 
 class Insights_section_admin(admin.ModelAdmin):
     list_display = ('minor_heading','main_heading','paragraph')
-    inlines = [Insights_video_inline]
     
     def has_add_permission(self, request):
         return not Insights_section.objects.exists()
@@ -126,23 +99,15 @@ class Insights_section_admin(admin.ModelAdmin):
         return False
     
 admin.site.register(Insights_section,Insights_section_admin)
+admin.site.register(Testimonials)
+admin.site.register(Accredited_members)
 
 
-class Testimonials_inline(admin.StackedInline):
-    model = Testimonials
-    extra = 1
-    can_delete = True
-    
-    
-class members_inline(admin.StackedInline):
-    model = Accredited_members
-    extra = 1
-    can_delete = True
+
 
 
 class Testimonials_section_admin(admin.ModelAdmin):
     list_display = ('minor_heading','main_heading')
-    inlines = [Testimonials_inline,members_inline]
     
     def has_add_permission(self, request):
         return not Testimonials_section.objects.exists()
@@ -164,30 +129,41 @@ class HomeCalculator_admin(admin.ModelAdmin):
     
 admin.site.register(Home_calculator_section,HomeCalculator_admin)
 
+class Contact_admin(admin.ModelAdmin):
 
-class ContactInline(admin.StackedInline):
-    model = Contact
-    extra = 1
-    can_delete = True
-    max_num = None
+    def has_add_permission(self, request):
+        return not Contact.objects.exists()
     
-class SocialMediaInline(admin.StackedInline):
-    model = Social_media
-    extra = 1
-    can_delete = True
-    max_num = None
+    def has_delete_permission(self, request, obj = None):
+        return False
+
+admin.site.register(Contact,Contact_admin)
+
+class Social_admin(admin.ModelAdmin):
+
+    def has_add_permission(self, request):
+        return not Social_media.objects.exists()
     
+    def has_delete_permission(self, request, obj = None):
+        return False
+
+admin.site.register(Social_media,Social_admin)
+
+
+class Office_admin(admin.ModelAdmin):
+
+    def has_add_permission(self, request):
+        return not Office_timings.objects.exists()
     
-class OfficeTimingInline(admin.StackedInline):
-    model = Office_timings
-    extra = 1
-    can_delete = True
-    max_num = None
+    def has_delete_permission(self, request, obj = None):
+        return False
+
+admin.site.register(Office_timings,Office_admin)
 
 
 class Contact_section_admin(admin.ModelAdmin):
     list_display = ('title','description','button_text','button_link')
-    inlines = [ContactInline,OfficeTimingInline,SocialMediaInline]
+    
     
     def has_add_permission(self, request):
         return not Contact_card_section.objects.exists()
@@ -219,14 +195,10 @@ class About_admin(admin.ModelAdmin):
 admin.site.register(About_first_section,About_admin)
 
 
-class Mission_vission_inline (admin.StackedInline):
-    model = Mission_vission_items
-    extra = 1
-    can_delete = True
+
 
 class Mission_vission_section_admin(admin.ModelAdmin):
     list_display = ('minor_heading','main_heading','paragraph')
-    inlines = [Mission_vission_inline]
     
     
     def has_add_permission(self, request):
@@ -237,14 +209,10 @@ class Mission_vission_section_admin(admin.ModelAdmin):
     
 admin.site.register(Mission_vission_section,Mission_vission_section_admin)
 
-class Core_values_inline(admin.StackedInline):
-    model = Core_value_items
-    extra = 1
-    can_delete = True
+
 
 class Core_values_Section_admin(admin.ModelAdmin):
     list_display = ('minor_heading','main_heading','paragraph')
-    inlines = [Core_values_inline]
     
     def has_add_permission(self, request):
         return not Our_core_values_section.objects.exists()
@@ -260,16 +228,13 @@ class teamMemberForm(forms.ModelForm):
     class Meta:
         model = Team_members
         fields = '__all__'
-class Team_members_inline(admin.StackedInline):
+
+class TeamAdmin(admin.ModelAdmin):
     form = teamMemberForm
-    model = Team_members
-    extra = 1
-    can_delete = True
     
     
 class Team_section_admin(admin.ModelAdmin):
     list_display = ('minor_heading','main_heading','paragraph')
-    inlines = [Team_members_inline]
     
     def has_add_permission(self, request):
         return not Team_section.objects.exists()
@@ -280,6 +245,8 @@ class Team_section_admin(admin.ModelAdmin):
     
 admin.site.register(Team_section,Team_section_admin)
 admin.site.register(Core_value_items)
+admin.site.register(Team_members,TeamAdmin)
+admin.site.register(Mission_vission_items)
 
 
 
@@ -304,7 +271,7 @@ class Service_category_Admin(admin.ModelAdmin):
     form = ServiceCategoryForm
     fieldsets = (
         ("Basic Info", {
-            'fields': ('title', 'slug', 'cover_image', 'short_description', 'service_section')
+            'fields': ('title', 'slug', 'cover_image', 'short_description')
         }),
         ("Page Settings", {
             'classes': ('collapse',),  # collapsible section
@@ -370,3 +337,30 @@ class Footer_Admin(admin.ModelAdmin):
 admin.site.register(Footer,Footer_Admin)
 admin.site.register(Footer_emails)
 admin.site.register(Footer_links)
+
+class Privacy_form(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = Privacy_policy
+        fields = "__all__"
+
+
+class Privacy_policy_admin(admin.ModelAdmin):
+    form = Privacy_form
+
+admin.site.register(Privacy_policy,Privacy_policy_admin)
+
+
+class Disclosure_form(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = Disclosure_statement
+        fields = "__all__"
+
+
+class Disclosure_admin(admin.ModelAdmin):
+    form = Disclosure_form
+
+admin.site.register(Disclosure_statement,Disclosure_admin)

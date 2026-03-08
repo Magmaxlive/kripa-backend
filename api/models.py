@@ -21,7 +21,6 @@ class Hero_content(models.Model):
     
     
 class Hero_features(models.Model):
-    hero = models.ForeignKey(Hero_content,on_delete=models.CASCADE,related_name='features')
     feature = models.CharField(max_length=500)
     
     def __str__(self):
@@ -29,7 +28,6 @@ class Hero_features(models.Model):
     
     
 class Hero_CTA_button(models.Model):
-    hero = models.OneToOneField(Hero_content,on_delete=models.CASCADE,related_name='CTA')
     button_text = models.CharField(max_length=100)
     link = models.CharField(max_length=200)
     
@@ -81,7 +79,6 @@ class Whychoose_section(models.Model):
     
     
 class WhyChoose_Points(models.Model):
-    why_choose = models.ForeignKey(Whychoose_section,on_delete=models.CASCADE,related_name='points')
     content = models.CharField(max_length=500)
     
     def __str__(self):
@@ -89,7 +86,6 @@ class WhyChoose_Points(models.Model):
     
     
 class Whychoose_Counter(models.Model):
-    why_choose = models.ForeignKey(Whychoose_section,on_delete=models.CASCADE,related_name='counts')
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=200)
     
@@ -97,7 +93,6 @@ class Whychoose_Counter(models.Model):
         return self.description
 
 class Whychoose_us_cards(models.Model):
-    whychoose_us = models.ForeignKey(Whychoose_section,on_delete=models.CASCADE,related_name="cards")
     icon = models.CharField(max_length=200)
     title = models.CharField(max_length=300)
     description = models.TextField()
@@ -106,7 +101,6 @@ class Whychoose_us_cards(models.Model):
         return self.title
     
 class Achievements(models.Model):
-    whychoose_us = models.ForeignKey(Whychoose_section,on_delete=models.CASCADE,related_name="achievements")
     alt = models.CharField(max_length=400)
     image = models.ImageField(upload_to='achievements/')
     
@@ -126,7 +120,6 @@ class Insights_section(models.Model):
     
     
 class Insights_video(models.Model):
-    insight = models.ForeignKey(Insights_section,on_delete=models.CASCADE,related_name='videos')
     video_link = models.URLField()
     title = models.CharField(max_length=500)
     description = models.TextField()
@@ -148,7 +141,6 @@ class Testimonials_section(models.Model):
     
     
 class Testimonials(models.Model):
-    testimonial_section = models.ForeignKey(Testimonials_section,on_delete=models.CASCADE,related_name='testimonials')
     rating = models.PositiveIntegerField(
         validators=[
             MinValueValidator(1),
@@ -163,7 +155,6 @@ class Testimonials(models.Model):
         return self.author
     
 class Accredited_members(models.Model):
-    testimonial = models.ForeignKey(Testimonials_section,on_delete=models.CASCADE,related_name='members')
     name = models.CharField(max_length=200)  
     
     
@@ -193,12 +184,12 @@ class Contact_card_section(models.Model):
     
     
 class Contact(models.Model):
-    contact_card = models.OneToOneField(Contact_card_section,on_delete=models.SET_NULL,null=True,blank=True,related_name='contacts')
     phone = models.CharField(max_length=50)
     whatsapp = models.CharField(max_length=50)
     email = models.EmailField()
     location = models.TextField()
     location_link = models.TextField(null=True,blank=True)
+    map_embed = models.TextField(null=True,blank=True)
 
     
     def __str__(self):
@@ -206,7 +197,6 @@ class Contact(models.Model):
     
 
 class Social_media(models.Model):
-    contact_card = models.OneToOneField(Contact_card_section,on_delete=models.SET_NULL,null=True,blank=True,related_name='social_media')
     facebook = models.URLField(null=True,blank=True)
     instagram = models.URLField(null=True,blank=True)
     linkedin = models.URLField(null=True,blank=True)
@@ -219,7 +209,6 @@ class Social_media(models.Model):
     
     
 class Office_timings(models.Model):
-    contact_card = models.OneToOneField(Contact_card_section,on_delete=models.SET_NULL,null=True,blank=True,related_name='office_timings')
     mon_fri = models.CharField(max_length=100)
     saturday = models.CharField(max_length=100)
     sunday = models.CharField(max_length=100)
@@ -254,7 +243,6 @@ class Mission_vission_section(models.Model):
     
     
 class Mission_vission_items(models.Model):
-    mission_vission = models.ForeignKey(Mission_vission_section,on_delete=models.CASCADE,related_name='mission_vission_items')
     icon = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -273,7 +261,6 @@ class Our_core_values_section(models.Model):
     
     
 class Core_value_items(models.Model):
-    core_value = models.ForeignKey(Our_core_values_section,on_delete=models.CASCADE,related_name='core_values')
     icon = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -297,7 +284,6 @@ class Team_members(models.Model):
         ('mortage_adviser','Mortage Adviser'),
         ('other','Other'),
     )
-    team_section = models.ForeignKey(Team_section,on_delete=models.SET_NULL,null=True,blank=True,related_name='members')
     image = models.ImageField(upload_to='team_members/')
     name = models.CharField(max_length=100)
     position = models.CharField(max_length=200)
@@ -373,7 +359,6 @@ def bump_menu_version(sender,instance,**kwargs):
     
     
 class Service_category(models.Model):
-    service_section = models.ForeignKey(Service_section,on_delete=models.SET_NULL,related_name='services',blank=True,null=True)
     cover_image = models.ImageField(upload_to='service_images/')
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     title = models.CharField(max_length=200)
@@ -389,8 +374,6 @@ class Service_category(models.Model):
         return self.title
     
     def save(self, *args, **kwargs):
-        if self.service_section is None:
-            self.service_section = Service_section.objects.first()
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
@@ -495,3 +478,9 @@ class Footer_links(models.Model):
     
     def __str__(self):
         return self.label
+
+class Privacy_policy(models.Model):
+    content = models.TextField()
+
+class Disclosure_statement(models.Model):
+    content = models.TextField()

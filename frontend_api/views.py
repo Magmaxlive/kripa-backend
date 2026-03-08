@@ -15,15 +15,13 @@ from django.views.decorators.cache import cache_page
 def homepage(request):
     context = {'request': request}
     
-    hero = Hero_content.objects.prefetch_related('features', 'CTA').first()
+    hero = Hero_content.objects.first()
     hero_video = Hero_video_section.objects.first()
     partners = Partner_logos.objects.all()
-    services = Service_section.objects.prefetch_related('services').first()
-    testimonials = Testimonials_section.objects.prefetch_related('testimonials').first()
-    why_choose = Whychoose_section.objects.prefetch_related(
-        'cards', 'points', 'counts', 'achievements'
-    ).first()
-    insights = Insights_section.objects.prefetch_related('videos').first()
+    services = Service_section.objects.first()
+    testimonials = Testimonials_section.objects.first()
+    why_choose = Whychoose_section.objects.first()
+    insights = Insights_section.objects.first()
     estimator = Home_calculator_section.objects.first()
     contact = Contact_card_section.objects.first()
     
@@ -49,9 +47,9 @@ def aboutpage(request):
     context = {'request': request}
     
     firstSection = About_first_section.objects.first()
-    mission_vission = Mission_vission_section.objects.prefetch_related('mission_vission_items').first()
-    core_Values = Our_core_values_section.objects.prefetch_related('core_values').first()
-    team = Team_section.objects.prefetch_related('members').first()
+    mission_vission = Mission_vission_section.objects.first()
+    core_Values = Our_core_values_section.objects.first()
+    team = Team_section.objects.first()
     
     
     data = {
@@ -137,3 +135,18 @@ def footer(request):
     }
     
     return Response(data)
+
+
+class Privacy_policy_view(generics.RetrieveAPIView):
+    serializer_class = Privacy_policy_serializer
+
+    def get_object(self):
+        return Privacy_policy.objects.first()
+
+
+
+class Disclosure_view(generics.RetrieveAPIView):
+    serializer_class = Disclosure_serializer
+
+    def get_object(self):
+        return Disclosure_statement.objects.first()

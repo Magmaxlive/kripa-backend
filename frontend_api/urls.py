@@ -25,6 +25,9 @@ urlpatterns = [
     # contact page
     
     path('contact_page/',contact_page),
-    path('footer/',footer,name='footer')
+    path('footer/',footer,name='footer'),
+    path('privacy-policy/',Privacy_policy_view.as_view(),name='privacy_policy'),
+    path('disclosure/',Disclosure_view.as_view(),name='disclosure')
+
 
 ]

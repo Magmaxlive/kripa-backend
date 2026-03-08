@@ -37,7 +37,11 @@ from .models import (
     Category_faq,
     Footer,
     Footer_emails,
-    Footer_links
+    Footer_links,
+    Privacy_policy,
+    Disclosure_statement,
+    Contact,
+    Social_media
     
 )
 
@@ -46,7 +50,28 @@ def handle_footer(sender,instance,signal,**kwargs):
         transaction.on_commit(lambda: notify_nextjs('footer'))
     else:
         notify_nextjs('footer')
-        
+
+def handle_privacy_policy(sender,instance,signal,**kwargs):
+    if signal == post_delete:
+        transaction.on_commit(lambda: notify_nextjs('privacyPolicy'))
+    else:
+        notify_nextjs('privacyPolicy')
+
+@receiver([post_save,post_delete],sender=Privacy_policy)
+def handle_privacy(sender,instance,signal,**kwargs):
+    handle_privacy_policy(sender,instance,signal,**kwargs)
+
+
+def handle_disclosure_statement(sender,instance,signal,**kwargs):
+    if signal == post_delete:
+        transaction.on_commit(lambda: notify_nextjs('disclosure'))
+    else:
+        notify_nextjs('disclosure')
+
+@receiver([post_save,post_delete],sender=Disclosure_statement)
+def handle_disclosure(sender,instance,signal,**kwargs):
+    handle_disclosure_statement(sender,instance,signal,**kwargs)
+
         
 @receiver([post_save,post_delete],sender=Footer)
 def handle_footer_section(sender,instance,signal,**kwargs):
@@ -188,6 +213,16 @@ def handle_calculator(sender, instance, signal, **kwargs):
     handle_homepage(sender, instance, signal, **kwargs)
 
 @receiver([post_save, post_delete], sender=Contact_card_section)
+def handle_contact(sender, instance, signal, **kwargs):
+    handle_homepage(sender, instance, signal, **kwargs)
+    handle_footer(sender, instance, signal, **kwargs)
+
+@receiver([post_save, post_delete], sender=Social_media)
+def handle_contact(sender, instance, signal, **kwargs):
+    handle_homepage(sender, instance, signal, **kwargs)
+    handle_footer(sender, instance, signal, **kwargs)
+
+@receiver([post_save, post_delete], sender=Contact)
 def handle_contact(sender, instance, signal, **kwargs):
     handle_homepage(sender, instance, signal, **kwargs)
     handle_footer(sender, instance, signal, **kwargs)

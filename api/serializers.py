@@ -13,11 +13,22 @@ class Hero_CTA_button_serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class Hero_content_serializer(serializers.ModelSerializer):
-    features = Hero_features_serializer(many = True,read_only = True)
-    CTA = Hero_CTA_button_serializer(read_only = True)
+    features = serializers.SerializerMethodField()
+    CTA = serializers.SerializerMethodField()
+
     class Meta:
         model = Hero_content
         fields = "__all__"
+
+    def get_features(self, obj):
+        features = Hero_features.objects.all()
+        return Hero_features_serializer(features, many=True).data
+
+    def get_CTA(self,obj):
+        cta = Hero_CTA_button.objects.first()
+        if cta:
+            return Hero_CTA_button_serializer(cta).data
+        return None
         
                
         
@@ -36,9 +47,12 @@ class Partner_logos_serializer(serializers.ModelSerializer):
 
         
 class Services_category_serializer(serializers.ModelSerializer):
+
     class Meta:
         model = Service_category
         fields = "__all__"
+
+    
         
         
 class Category_faq_serializer(serializers.ModelSerializer):
@@ -75,11 +89,16 @@ class Services_category_serializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class Service_section_serializer(serializers.ModelSerializer):
-    services = Home_page_service_category(many=True,read_only = True)
+    services = serializers.SerializerMethodField()
     
     class Meta:
         model = Service_section
         fields = "__all__"
+
+    def get_services(self,obj):
+        services = Service_category.objects.all()
+        return Home_page_service_category(services,many=True,context=self.context).data
+
         
         
 
@@ -108,14 +127,30 @@ class Achievements_serializer(serializers.ModelSerializer):
         
         
 class Whychoose_us_section_serializer(serializers.ModelSerializer):
-    cards = Whychooseus_cards_serializer(many=True,read_only=True)
-    points = Whychooseus_points_serializer(many=True,read_only=True)
-    counts = Whychooseus_counter_serializer(many=True,read_only=True)
-    achievements = Achievements_serializer(many=True,read_only=True)
+    cards = serializers.SerializerMethodField()
+    points = serializers.SerializerMethodField()
+    counts = serializers.SerializerMethodField()
+    achievements = serializers.SerializerMethodField()
     
     class Meta:
         model = Whychoose_section
         fields = "__all__"
+
+    def get_cards(self,obj):
+        cards = Whychoose_us_cards.objects.all()
+        return Whychooseus_cards_serializer(cards,many=True).data
+
+    def get_points(self,obj):
+        points = WhyChoose_Points.objects.all()
+        return Whychooseus_points_serializer(points,many=True).data
+
+    def get_counts(self,obj):
+        counts = Whychoose_Counter.objects.all()
+        return Whychooseus_counter_serializer(counts,many=True).data
+
+    def get_achievements(self,obj):
+        achievements = Achievements.objects.all()
+        return Achievements_serializer(achievements,many=True,context=self.context).data
         
 
 class Insights_video_serializer(serializers.ModelSerializer):
@@ -125,10 +160,14 @@ class Insights_video_serializer(serializers.ModelSerializer):
         
         
 class Insights_section_serializer(serializers.ModelSerializer):
-    videos = Insights_video_serializer(many=True,read_only=True)
+    videos = serializers.SerializerMethodField()
     class Meta :
         model = Insights_section
         fields = "__all__" 
+
+    def get_videos(self,obj):
+        videos = Insights_video.objects.all()
+        return Insights_video_serializer(videos,many=True).data
 
 
 
@@ -145,13 +184,20 @@ class Members_serializer(serializers.ModelSerializer):
         
         
 class Testimonial_section_serializer(serializers.ModelSerializer):
-    members = Members_serializer(many=True,read_only=True)
-    testimonials = Testimonials_serializer(many=True,read_only=True)
+    members = serializers.SerializerMethodField()
+    testimonials = serializers.SerializerMethodField()
     
     class Meta:
         model = Testimonials_section
         fields = "__all__"
         
+    def get_testimonials(self,obj):
+        testimonials = Testimonials.objects.all()
+        return Testimonials_serializer(testimonials,many=True).data
+
+    def get_members(self,obj):
+        members = Accredited_members.objects.all()
+        return Members_serializer(members,many=True).data
         
 class Home_calculator_serializer(serializers.ModelSerializer):
     class Meta :
@@ -177,12 +223,25 @@ class Office_timings_serializer(serializers.ModelSerializer):
         
         
 class Contact_card_serializer(serializers.ModelSerializer):
-    social_media = Social_media_serializer(read_only=True)
-    contacts = Contact_items_serializer(read_only=True)
-    office_timings = Office_timings_serializer(read_only=True)
+    social_media = serializers.SerializerMethodField()
+    contacts = serializers.SerializerMethodField()
+    office_timings = serializers.SerializerMethodField()
+
     class Meta:
         model = Contact_card_section
         fields = "__all__"
+
+    def get_social_media(self,obj):
+        social_media = Social_media.objects.first()
+        return Social_media_serializer(social_media).data
+
+    def get_contacts(self,obj):
+        contacts = Contact.objects.first()
+        return Contact_items_serializer(contacts).data
+
+    def get_office_timings(self,obj):
+        office_timings = Office_timings.objects.first()
+        return Office_timings_serializer(office_timings).data
 
 
 # about page 
@@ -198,10 +257,14 @@ class Mission_vission_items_serializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class Mission_vission_section_serializer(serializers.ModelSerializer):
-    mission_vission_items = Mission_vission_items_serializer(many=True,read_only=True)
+    mission_vission_items = serializers.SerializerMethodField()
     class Meta:
         model = Mission_vission_section
         fields = "__all__"
+
+    def get_mission_vission_items(self,obj):
+        mission_vission_items = Mission_vission_items.objects.all()
+        return Mission_vission_items_serializer(mission_vission_items,many=True).data
   
   
 class Core_values_serializer(serializers.ModelSerializer):
@@ -210,10 +273,14 @@ class Core_values_serializer(serializers.ModelSerializer):
         fields = "__all__"    
         
 class Core_values_section_serializer(serializers.ModelSerializer):
-    core_values = Core_values_serializer(many=True,read_only=True)
+    core_values = serializers.SerializerMethodField()
     class Meta:
         model = Our_core_values_section
         fields = "__all__"
+
+    def get_core_values(self,obj):
+        core_values = Core_value_items.objects.all()
+        return Core_values_serializer(core_values,many=True).data
         
         
 class Team_members_serializer(serializers.ModelSerializer):
@@ -223,10 +290,14 @@ class Team_members_serializer(serializers.ModelSerializer):
         
         
 class Team_section_serializer(serializers.ModelSerializer):
-    members = Team_members_serializer(many=True,read_only=True)
+    members = serializers.SerializerMethodField()
     class Meta:
         model = Team_section
         fields = "__all__"
+
+    def get_members(self,obj):
+        members = Team_members.objects.all()
+        return Team_members_serializer(members,many=True,context=self.context).data
         
 class Blog_category_serializer(serializers.ModelSerializer):
     class Meta:
@@ -288,4 +359,15 @@ class Footer_links_serializer(serializers.ModelSerializer):
 class Footer_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Footer
+        fields = "__all__"
+
+
+class Privacy_policy_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Privacy_policy
+        fields = "__all__"
+
+class Disclosure_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Disclosure_statement
         fields = "__all__"
