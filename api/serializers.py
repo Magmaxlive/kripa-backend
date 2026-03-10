@@ -371,3 +371,21 @@ class Disclosure_serializer(serializers.ModelSerializer):
     class Meta:
         model = Disclosure_statement
         fields = "__all__"
+
+
+
+class Career_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = CareerPage
+        fields = "__all__"
+
+
+class Job_application_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobApplication
+        fields = "__all__"
+
+class Enquiry_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnquiryForm
+        fields = "__all__"

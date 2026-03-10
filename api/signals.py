@@ -41,7 +41,8 @@ from .models import (
     Privacy_policy,
     Disclosure_statement,
     Contact,
-    Social_media
+    Social_media,
+    CareerPage
     
 )
 
@@ -266,3 +267,14 @@ def handle_team_members(sender, instance, signal, **kwargs):
 @receiver([post_save, post_delete], sender=Team_section)
 def handle_team_section(sender, instance, signal, **kwargs):
     handle_aboutpage(signal)
+
+
+def handle_career(sender,instance,signal,**kwargs):
+    if signal == post_delete:
+        transaction.on_commit(lambda: notify_nextjs('career'))
+    else:
+        notify_nextjs('career')
+
+@receiver([post_save,post_delete],sender=CareerPage)
+def handle_careerPage(sender,instance,signal,**kwargs):
+    handle_career(sender,instance,signal,**kwargs)

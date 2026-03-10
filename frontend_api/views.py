@@ -5,10 +5,10 @@ from api.serializers import *
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.db.models import Prefetch
-from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+
 
 
 @api_view(['GET'])
@@ -150,3 +150,46 @@ class Disclosure_view(generics.RetrieveAPIView):
 
     def get_object(self):
         return Disclosure_statement.objects.first()
+    
+
+class Career_view(generics.RetrieveAPIView):
+    serializer_class = Career_Serializer
+    
+    def get_object(self):
+        return CareerPage.objects.first()
+    
+class Job_Application_view(generics.CreateAPIView):
+    serializer_class = Job_application_Serializer
+    queryset = JobApplication.objects.all()
+    
+
+class Enquiry_form_view(generics.CreateAPIView):
+    serializer_class = Enquiry_Serializer
+    queryset = EnquiryForm.objects.all()
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        self.send_enquiry_email(instance)
+
+    def send_enquiry_email(self,instance):
+        context = {
+            'name' : instance.full_name,
+            'email' : instance.email,
+            'service' : instance.service,
+            'phone' : instance.phone,
+            'message' : instance.message
+        }
+
+        html_content = render_to_string('emails/enquiry.html',context)
+        text_content = f"New enquiry from {instance.full_name} - {instance.email}"
+
+        email = EmailMultiAlternatives(
+            subject=f"New enquiry from {instance.full_name}",
+            body=text_content,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[settings.DEFAULT_FROM_EMAIL],
+            reply_to=[instance.email],
+        )
+
+        email.attach_alternative(html_content,"text/html")
+        email.send(fail_silently=False)

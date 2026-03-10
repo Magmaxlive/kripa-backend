@@ -231,6 +231,14 @@ class teamMemberForm(forms.ModelForm):
 
 class TeamAdmin(admin.ModelAdmin):
     form = teamMemberForm
+
+class careerForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorWidget(),required=False)
+    benefits = forms.CharField(widget=CKEditorWidget(),required=False)
+
+    class Meta:
+        model = CareerPage
+        fields = '__all__'
     
     
 class Team_section_admin(admin.ModelAdmin):
@@ -242,11 +250,25 @@ class Team_section_admin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj = None):
         return False
     
+
+class CareerAdmin(admin.ModelAdmin):
+    form = careerForm
+
+    def has_add_permission(self, request):
+        return not CareerPage.objects.exists()
+    
+    def has_delete_permission(self, request, obj = None):
+        return False
+    
     
 admin.site.register(Team_section,Team_section_admin)
 admin.site.register(Core_value_items)
 admin.site.register(Team_members,TeamAdmin)
 admin.site.register(Mission_vission_items)
+admin.site.register(JobApplication)
+admin.site.register(CareerPage,CareerAdmin)
+admin.site.register(EnquiryForm)
+
 
 
 
@@ -349,6 +371,12 @@ class Privacy_form(forms.ModelForm):
 class Privacy_policy_admin(admin.ModelAdmin):
     form = Privacy_form
 
+    def has_add_permission(self, request):
+        return not Privacy_policy.objects.exists()
+    
+    def has_delete_permission(self, request, obj = None):
+        return False
+
 admin.site.register(Privacy_policy,Privacy_policy_admin)
 
 
@@ -362,5 +390,11 @@ class Disclosure_form(forms.ModelForm):
 
 class Disclosure_admin(admin.ModelAdmin):
     form = Disclosure_form
+
+    def has_add_permission(self, request):
+        return not Disclosure_statement.objects.exists()
+    
+    def has_delete_permission(self, request, obj = None):
+        return False
 
 admin.site.register(Disclosure_statement,Disclosure_admin)

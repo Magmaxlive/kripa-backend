@@ -484,3 +484,50 @@ class Privacy_policy(models.Model):
 
 class Disclosure_statement(models.Model):
     content = models.TextField()
+
+class CareerPage(models.Model):
+    image = models.ImageField(upload_to='careerimages/')
+    description = models.TextField()
+    benefits = models.TextField()
+    image2 = models.ImageField(upload_to='careerimages/')
+
+class JobApplication(models.Model):
+    STATUS_OPTIONS = [
+        ('pending','Pending'),
+        ('reviewing','Reviewing'),
+        ('accepted','Accepted'),
+        ('rejected','Rejected'),
+    ]
+
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    resume = models.FileField(upload_to='resumes/')
+    cover_letter = models.TextField(blank=True)
+    linkedin_url = models.URLField(blank=True)
+    position =  models.CharField(max_length=100)
+    status = models.CharField(max_length=20, choices=STATUS_OPTIONS, default='pending')
+    applied_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.position}"
+
+
+class EnquiryForm(models.Model):
+    STATUS_OPTIONS = [
+        ('pending','Pending'),
+        ('reviewing','Reviewing'),
+        ('responded','Responded'),
+    ]
+
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    service = models.CharField(max_length=50)
+    message =  models.TextField(null=True,blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_OPTIONS, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.service}"

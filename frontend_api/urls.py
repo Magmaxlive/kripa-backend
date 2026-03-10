@@ -27,7 +27,16 @@ urlpatterns = [
     path('contact_page/',contact_page),
     path('footer/',footer,name='footer'),
     path('privacy-policy/',Privacy_policy_view.as_view(),name='privacy_policy'),
-    path('disclosure/',Disclosure_view.as_view(),name='disclosure')
+    path('disclosure/',Disclosure_view.as_view(),name='disclosure'),
+
+    # career
+
+    path('career/',Career_view.as_view(),name='career'),
+    path('job_application/',Job_Application_view.as_view(),name='job_application'),
+
+    # enquiry
+
+    path('enquiry/',Enquiry_form_view.as_view(),name='enquiry')
 
 
 ]
