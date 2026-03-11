@@ -11,6 +11,10 @@ from django.conf import settings
 
 
 
+
+
+
+
 @api_view(['GET'])
 def homepage(request):
     context = {'request': request}
@@ -63,10 +67,12 @@ def aboutpage(request):
 
 @api_view(['GET'])
 def contact_page(request):
+    context = {'request': request}
+    
     contact = Contact_card_section.objects.first()
     services = Service_category.objects.all()
     data = {
-        'contact' : Contact_card_serializer(contact).data,
+        'contact' : Contact_card_serializer(contact,context=context).data,
         'service' : Home_page_service_category(services,many=True).data
     }
     return Response(data)
@@ -193,3 +199,22 @@ class Enquiry_form_view(generics.CreateAPIView):
 
         email.attach_alternative(html_content,"text/html")
         email.send(fail_silently=False)
+
+
+class Terms_view(generics.RetrieveAPIView):
+    serializer_class = Terms_serializer
+
+    def get_object(self):
+        return Terms_and_conditions.objects.first()
+    
+
+class Important_view(generics.RetrieveAPIView):
+    serializer_class = Important_information_serializer
+
+    def get_object(self):
+        return Important_information.objects.first()
+    
+
+class Subsribe_view(generics.CreateAPIView):
+    serializer_class = Subsribers_serializer
+    queryset = Subscriber.objects.all()

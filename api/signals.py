@@ -42,7 +42,9 @@ from .models import (
     Disclosure_statement,
     Contact,
     Social_media,
-    CareerPage
+    CareerPage,
+    Terms_and_conditions,
+    Important_information
     
 )
 
@@ -278,3 +280,26 @@ def handle_career(sender,instance,signal,**kwargs):
 @receiver([post_save,post_delete],sender=CareerPage)
 def handle_careerPage(sender,instance,signal,**kwargs):
     handle_career(sender,instance,signal,**kwargs)
+
+
+
+def handle_terms(sender,instance,signal,**kwargs):
+    if signal == post_delete:
+        transaction.on_commit(lambda: notify_nextjs('terms'))
+    else:
+        notify_nextjs('terms')
+
+@receiver([post_save,post_delete],sender=Terms_and_conditions)
+def handle_termsPage(sender,instance,signal,**kwargs):
+    handle_terms(sender,instance,signal,**kwargs)
+
+
+def handle_imp(sender,instance,signal,**kwargs):
+    if signal == post_delete:
+        transaction.on_commit(lambda: notify_nextjs('important'))
+    else:
+        notify_nextjs('important')
+
+@receiver([post_save,post_delete],sender=Important_information)
+def handle_impPage(sender,instance,signal,**kwargs):
+    handle_imp(sender,instance,signal,**kwargs)

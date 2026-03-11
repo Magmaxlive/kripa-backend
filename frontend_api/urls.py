@@ -36,7 +36,15 @@ urlpatterns = [
 
     # enquiry
 
-    path('enquiry/',Enquiry_form_view.as_view(),name='enquiry')
+    path('enquiry/',Enquiry_form_view.as_view(),name='enquiry'),
+
+    # other
+    path('terms-and-conditions/',Terms_view.as_view(),name='terms'),
+    path('important-information/',Important_view.as_view(),name='important'),
+
+    # subscribe
+    path('subscribe/',Subsribe_view.as_view(),name='subscribe')
+
 
 
 ]

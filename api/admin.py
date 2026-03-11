@@ -398,3 +398,41 @@ class Disclosure_admin(admin.ModelAdmin):
         return False
 
 admin.site.register(Disclosure_statement,Disclosure_admin)
+
+
+class TermsForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget(),required=False)
+
+    class Meta:
+        model = Terms_and_conditions
+        fields = '__all__'
+
+class Terms_admin(admin.ModelAdmin):
+    form = TermsForm
+
+    def has_add_permission(self, request):
+        return not Terms_and_conditions.objects.exists()
+    
+    def has_delete_permission(self, request, obj = None):
+        return False
+    
+admin.site.register(Terms_and_conditions,Terms_admin)   
+
+class ImpForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget(),required=False)
+
+    class Meta:
+        model = Important_information
+        fields = '__all__'
+
+class ImpAdmin(admin.ModelAdmin):
+    form = ImpForm
+
+    def has_add_permission(self, request):
+        return not Important_information.objects.exists()
+    
+    def has_delete_permission(self, request, obj = None):
+        return False
+    
+admin.site.register(Important_information,ImpAdmin)
+admin.site.register(Subscriber)

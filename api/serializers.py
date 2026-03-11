@@ -237,7 +237,7 @@ class Contact_card_serializer(serializers.ModelSerializer):
 
     def get_contacts(self,obj):
         contacts = Contact.objects.first()
-        return Contact_items_serializer(contacts).data
+        return Contact_items_serializer(contacts,context=self.context).data
 
     def get_office_timings(self,obj):
         office_timings = Office_timings.objects.first()
@@ -298,7 +298,9 @@ class Team_section_serializer(serializers.ModelSerializer):
     def get_members(self,obj):
         members = Team_members.objects.all()
         return Team_members_serializer(members,many=True,context=self.context).data
-        
+
+
+
 class Blog_category_serializer(serializers.ModelSerializer):
     class Meta:
         model = Blog_category
@@ -312,9 +314,7 @@ class Blogs_serializer(serializers.ModelSerializer):
         fields = "__all__"
         
 # blogs
-        
-      
-      
+
 
 # menus
 
@@ -388,4 +388,20 @@ class Job_application_Serializer(serializers.ModelSerializer):
 class Enquiry_Serializer(serializers.ModelSerializer):
     class Meta:
         model = EnquiryForm
+        fields = "__all__"
+
+
+class Terms_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Terms_and_conditions
+        fields = "__all__"
+
+class Important_information_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Important_information
+        fields = "__all__"
+
+class Subsribers_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscriber
         fields = "__all__"

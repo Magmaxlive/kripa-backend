@@ -184,6 +184,7 @@ class Contact_card_section(models.Model):
     
     
 class Contact(models.Model):
+    banner_image = models.ImageField(upload_to='banner_images',null=True,blank=True)
     phone = models.CharField(max_length=50)
     whatsapp = models.CharField(max_length=50)
     email = models.EmailField()
@@ -195,6 +196,7 @@ class Contact(models.Model):
     def __str__(self):
         return "Contact"
     
+
 
 class Social_media(models.Model):
     facebook = models.URLField(null=True,blank=True)
@@ -222,6 +224,7 @@ class Office_timings(models.Model):
 
 class About_first_section(models.Model):
     image = models.ImageField(upload_to='about-image/')
+    banner_image = models.ImageField(upload_to='banner_images',null=True,blank=True)
     minor_heading = models.CharField(max_length=100)
     main_heading = models.CharField(max_length=400)
     paragraph = models.TextField(null=True,blank=True)
@@ -297,13 +300,7 @@ class Team_members(models.Model):
     
 # blog page
 
-class Blog_section(models.Model):
-    minor_heading = models.CharField(max_length=100)
-    main_heading = models.CharField(max_length=400)
-    paragraph = models.TextField(null=True,blank=True)
-    
-    def __str__(self):
-        return "blog section"
+
     
 
 
@@ -480,12 +477,15 @@ class Footer_links(models.Model):
         return self.label
 
 class Privacy_policy(models.Model):
+    banner_image = models.ImageField(upload_to='banner_images',null=True,blank=True)
     content = models.TextField()
 
 class Disclosure_statement(models.Model):
+    banner_image = models.ImageField(upload_to='banner_images',null=True,blank=True)
     content = models.TextField()
 
 class CareerPage(models.Model):
+    banner_image = models.ImageField(upload_to='banner_images',null=True,blank=True)
     image = models.ImageField(upload_to='careerimages/')
     description = models.TextField()
     benefits = models.TextField()
@@ -531,3 +531,26 @@ class EnquiryForm(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.service}"
+    
+
+class Terms_and_conditions(models.Model):
+    banner_image=models.ImageField(upload_to='banner_images/',null=True,blank=True)
+    content = models.TextField()
+
+    def __str__(self):
+        return 'Terms and conditions'
+    
+
+class Important_information(models.Model):
+    banner_image=models.ImageField(upload_to='banner_images/',null=True,blank=True)
+    content = models.TextField()
+
+    def __str__(self):
+        return 'Important information'
+    
+
+class Subscriber(models.Model):
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.email
