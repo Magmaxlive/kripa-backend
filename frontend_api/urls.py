@@ -43,8 +43,10 @@ urlpatterns = [
     path('important-information/',Important_view.as_view(),name='important'),
 
     # subscribe
-    path('subscribe/',Subsribe_view.as_view(),name='subscribe')
+    path('subscribe/',Subsribe_view.as_view(),name='subscribe'),
 
+    # general faqs
+    path('general_faqs/',General_faq_view.as_view(),name='general_faqs')
 
 
 ]

@@ -325,9 +325,30 @@ class Service_admin(admin.ModelAdmin):
 
 )
     
+class ServicefaqForm(forms.ModelForm):
+    answer = forms.CharField(widget=CKEditorWidget(),required=False)
+
+    class Meta:
+        model = Service_faq
+        fields = '__all__'
+
+class ServicefaqAdmin(admin.ModelAdmin):
+    form = ServicefaqForm
+
+
+class CategoryfaqForm(forms.ModelForm):
+    answer = forms.CharField(widget=CKEditorWidget(),required=False)
+
+    class Meta:
+        model = Category_faq
+        fields = '__all__'
+
+class CategoryfaqAdmin(admin.ModelAdmin):
+    form = CategoryfaqForm
+    
 admin.site.register(Services,Service_admin)
-admin.site.register(Category_faq)
-admin.site.register(Service_faq)
+admin.site.register(Category_faq,CategoryfaqAdmin)
+admin.site.register(Service_faq,ServicefaqAdmin)
 
 
 admin.site.register(Blog_category)
@@ -434,5 +455,18 @@ class ImpAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj = None):
         return False
     
+
+class faqForm(forms.ModelForm):
+    answer = forms.CharField(widget=CKEditorWidget(),required=False)
+
+    class Meta:
+        model = General_faqs
+        fields = '__all__'
+
+class faqAdmin(admin.ModelAdmin):
+    form = faqForm
+
+    
 admin.site.register(Important_information,ImpAdmin)
 admin.site.register(Subscriber)
+admin.site.register(General_faqs,faqAdmin)

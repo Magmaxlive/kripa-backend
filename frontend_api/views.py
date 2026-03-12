@@ -218,3 +218,8 @@ class Important_view(generics.RetrieveAPIView):
 class Subsribe_view(generics.CreateAPIView):
     serializer_class = Subsribers_serializer
     queryset = Subscriber.objects.all()
+
+
+class General_faq_view(generics.ListAPIView):
+    serializer_class = General_faq_serializer
+    queryset = General_faqs.objects.all()

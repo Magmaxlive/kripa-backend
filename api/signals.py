@@ -44,7 +44,8 @@ from .models import (
     Social_media,
     CareerPage,
     Terms_and_conditions,
-    Important_information
+    Important_information,
+    General_faqs
     
 )
 
@@ -107,12 +108,12 @@ def handle_service_category_faq(sender,instance,signal,**kwargs):
     
 
 @receiver([post_save,post_delete],sender=Services)
-def handle_service_category_faq(sender,instance,signal,**kwargs):
+def handle_service_page(sender,instance,signal,**kwargs):
     handle_service(sender,instance,signal,**kwargs)  
     
     
 @receiver([post_save,post_delete],sender=Service_faq)
-def handle_service_category_faq(sender,instance,signal,**kwargs):
+def handle_service_faq(sender,instance,signal,**kwargs):
     handle_service(sender,instance,signal,**kwargs)        
         
 
@@ -303,3 +304,14 @@ def handle_imp(sender,instance,signal,**kwargs):
 @receiver([post_save,post_delete],sender=Important_information)
 def handle_impPage(sender,instance,signal,**kwargs):
     handle_imp(sender,instance,signal,**kwargs)
+
+
+def handle_Generalfaq(sender,instance,signal,**kwargs):
+    if signal == post_delete:
+        transaction.on_commit(lambda: notify_nextjs('general_faqs'))
+    else:
+        notify_nextjs('general_faqs')
+
+@receiver([post_save,post_delete],sender=General_faqs)
+def handle_faqPage(sender,instance,signal,**kwargs):
+    handle_Generalfaq(sender,instance,signal,**kwargs)
