@@ -11,10 +11,6 @@ from django.conf import settings
 
 
 
-
-
-
-
 @api_view(['GET'])
 def homepage(request):
     context = {'request': request}
