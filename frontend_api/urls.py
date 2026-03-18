@@ -21,6 +21,8 @@ urlpatterns = [
     
     path('service_category/<slug:slug>/',Service_category_detail_view.as_view(),name='category_detail'),
     path('services/<slug:slug>/',Service_detail_view.as_view(),name='service_detail'),
+    path('service_category/',Service_category_list.as_view(),name='categorys'),
+
     
     # contact page
     

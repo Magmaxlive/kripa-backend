@@ -289,20 +289,8 @@ class ServiceCategoryForm(forms.ModelForm):
         model = Service_category
         fields = '__all__'
 
-class Service_category_Admin(admin.ModelAdmin):
-    form = ServiceCategoryForm
-    fieldsets = (
-        ("Basic Info", {
-            'fields': ('title', 'slug', 'cover_image', 'short_description')
-        }),
-        ("Page Settings", {
-            'classes': ('collapse',),  # collapsible section
-            'fields': ('banner_image', 'minor_heading', 'main_heading', 'brief_description')
-        }),
 
-)
 
-admin.site.register(Service_category,Service_category_Admin)
 
 class ServiceForm(forms.ModelForm):
     brief_description = forms.CharField(widget=CKEditorWidget())
@@ -349,6 +337,27 @@ class CategoryfaqAdmin(admin.ModelAdmin):
 admin.site.register(Services,Service_admin)
 admin.site.register(Category_faq,CategoryfaqAdmin)
 admin.site.register(Service_faq,ServicefaqAdmin)
+
+class Category_faqInline(admin.StackedInline):
+    form = CategoryfaqForm
+    model = Category_faq
+    extra = 1
+        
+class Service_category_Admin(admin.ModelAdmin):
+    form = ServiceCategoryForm
+    inlines = [Category_faqInline]
+    fieldsets = (
+        ("Basic Info", {
+            'fields': ('title', 'slug', 'cover_image', 'short_description')
+        }),
+        ("Page Settings", {
+            'classes': ('collapse',),  # collapsible section
+            'fields': ('banner_image', 'minor_heading', 'main_heading', 'brief_description')
+        }),
+
+)
+
+admin.site.register(Service_category,Service_category_Admin)
 
 
 admin.site.register(Blog_category)

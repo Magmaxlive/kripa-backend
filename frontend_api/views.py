@@ -219,3 +219,7 @@ class Subsribe_view(generics.CreateAPIView):
 class General_faq_view(generics.ListAPIView):
     serializer_class = General_faq_serializer
     queryset = General_faqs.objects.all()
+
+class Service_category_list(generics.ListAPIView):
+    serializer_class = Services_category_serializer
+    queryset = Service_category.objects.all()
