@@ -2,6 +2,12 @@ from django.shortcuts import render
 from rest_framework import generics,permissions
 from api.models import *
 from .serializers import *
+from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth.models import User
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -240,3 +246,186 @@ class Mission_vission_detail_view(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = Mission_vission_items_serializer
     queryset = Mission_vission_items.objects.all()
     lookup_field = 'pk'
+
+
+class Core_values_section_view(generics.RetrieveAPIView):
+    serializer_class = Core_values_Section_serializer
+
+    def get_object(self):
+        queryset = Our_core_values_section.objects.first()
+        return queryset
+    
+
+class Core_values_section_Detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Core_values_Section_serializer
+    queryset = Our_core_values_section.objects.all()
+    lookup_field = 'pk'
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+class Core_values_view(generics.ListCreateAPIView):
+    serializer_class = Core_values_serializer
+    queryset = Core_value_items.objects.all()
+
+class Core_values_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Core_values_serializer
+    queryset = Core_value_items.objects.all()
+    lookup_field = 'pk'
+
+
+class Category_faq_view(generics.ListCreateAPIView):
+    serializer_class = Category_faq_serializer
+    queryset = Category_faq.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['category']
+
+
+class Category_faq_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Category_faq_serializer
+    queryset = Category_faq.objects.all()
+    lookup_field = 'pk'
+
+
+
+class Team_section_view(generics.RetrieveAPIView):
+    serializer_class = Team_Section_serializer
+
+    def get_object(self):
+        queryset = Team_section.objects.first()
+        return queryset
+    
+
+class Team_section_Detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Team_Section_serializer
+    queryset = Team_section.objects.all()
+    lookup_field = 'pk'
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+
+class Team_members_view(generics.ListCreateAPIView):
+    serializer_class = Team_Member_serializer
+    queryset = Team_members.objects.all()
+    
+
+
+class Team_member_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Team_Member_serializer
+    queryset = Team_members.objects.all()
+    lookup_field = 'pk'
+
+
+
+class Contact_card_section_view(generics.RetrieveAPIView):
+    serializer_class = Contact_card_Section_serializer
+
+    def get_object(self):
+        queryset = Contact_card_section.objects.first()
+        return queryset
+    
+
+class contact_card_section_Detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Contact_card_Section_serializer
+    queryset = Contact_card_section.objects.all()
+    lookup_field = 'pk'
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+
+class Contact_view(generics.RetrieveAPIView):
+    serializer_class = Contact_serializer
+
+    def get_object(self):
+        queryset = Contact.objects.first()
+        return queryset
+    
+
+class contact_Detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Contact_serializer
+    queryset = Contact.objects.all()
+    lookup_field = 'pk'
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+class Social_media_view(generics.RetrieveAPIView):
+    serializer_class = Social_media_serializer
+
+    def get_object(self):
+        queryset = Social_media.objects.first()
+        return queryset
+    
+
+class Social_media_Detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Social_media_serializer
+    queryset = Social_media.objects.all()
+    lookup_field = 'pk'
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+class Office_time_view(generics.RetrieveAPIView):
+    serializer_class = Office_time_serializer
+
+    def get_object(self):
+        queryset = Office_timings.objects.first()
+        return queryset
+    
+
+class Office_time_Detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Office_time_serializer
+    queryset = Office_timings.objects.all()
+    lookup_field = 'pk'
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+
+class Services_view(generics.ListCreateAPIView):
+    serializer_class = Services_serializer
+    queryset = Services.objects.all()
+
+class Services_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Services_serializer
+    queryset = Services.objects.all()
+    lookup_field = 'pk'
+
+
+
+class Service_faq_view(generics.ListCreateAPIView):
+    serializer_class = Service_faq_serializer
+    queryset = Service_faq.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['service']
+
+
+class Service_faq_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Service_faq_serializer
+    queryset = Service_faq.objects.all()
+    lookup_field = 'pk'
+
+
+class Blogs_view(generics.ListCreateAPIView):
+    serializer_class = Blogs_serializer
+    queryset = Blog.objects.all()
+
+
+class Blogs_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Blogs_serializer
+    queryset = Blog.objects.all()
+    lookup_field = 'pk'
+
+
+class User_View(generics.ListAPIView):
+    serializer_class = User_serializer
+    queryset = User.objects.all()
+
+
+
+@csrf_exempt
+@api_view(['POST'])
+def upload_image(request):
+    print(">>> upload_image HIT")
+    print(">>> FILES:", request.FILES)
+    file = request.FILES.get('upload')
+    if not file:
+        return Response({"error": "No file"}, status=400)
+    obj = UploadedImage.objects.create(image=file)
+    return Response({"url": request.build_absolute_uri(obj.image.url)})

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'admin_api',
     'ckeditor',
     'ckeditor_uploader',
-    'storages'
+    'storages',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

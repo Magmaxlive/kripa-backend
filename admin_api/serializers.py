@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from api.models import *
+from django.contrib.auth.models import User
 
 class Hero_content_Serializer(serializers.ModelSerializer):
     class Meta:
@@ -105,4 +106,85 @@ class Mission_vission_Section_serializer(serializers.ModelSerializer):
 class Mission_vission_items_serializer(serializers.ModelSerializer):
     class Meta:
         model = Mission_vission_items
+        fields = "__all__"
+
+
+
+class Core_values_Section_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Our_core_values_section
+        fields = "__all__"
+
+
+class Core_values_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Core_value_items
+        fields = "__all__"
+
+
+class Category_faq_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category_faq
+        fields = "__all__"
+
+
+class Team_Section_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team_section
+        fields = "__all__"
+
+
+class Team_Member_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team_members
+        fields = "__all__"
+
+
+class Contact_card_Section_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact_card_section
+        fields = "__all__"
+
+
+class Contact_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = "__all__"
+
+
+class Social_media_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Social_media
+        fields = "__all__"
+
+
+class Office_time_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Office_timings
+        fields = "__all__"
+
+
+class Services_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Services
+        fields = "__all__"
+
+
+
+class Service_faq_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service_faq
+        fields = "__all__"
+
+
+
+class Blogs_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
+
+class User_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
         fields = "__all__"

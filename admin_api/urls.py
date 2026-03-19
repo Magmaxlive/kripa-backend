@@ -59,5 +59,45 @@ urlpatterns = [
     path('mission_vission_items/',Mission_vission_view.as_view(),name='mission-vission-items'),
     path('mission_vission_items/<int:pk>/',Mission_vission_detail_view.as_view(),name='mission-vission-items'),
 
+    path('core_values_section/',Core_values_section_view.as_view(),name='core-values-section'),
+    path('core_values_section/<int:pk>/',Core_values_section_Detail_view.as_view(),name='core-values-section'),
+
+    path('core_values_items/',Core_values_view.as_view(),name='core-values-items'),
+    path('core_values_items/<int:pk>/',Core_values_detail_view.as_view(),name='core-values-items'),
+
+    path('category-faq/',Category_faq_view.as_view(),name='cat-faq'),
+    path('category-faq/<int:pk>/',Category_faq_detail_view.as_view(),name='cat-faq'),
+
+    path('team-section/',Team_section_view.as_view(),name='team-section'),
+    path('team-section/<int:pk>/',Team_section_Detail_view.as_view(),name='team-section'),
+
+    path('team-members/',Team_members_view.as_view(),name='team-members'),
+    path('team-members/<int:pk>/',Team_member_detail_view.as_view(),name='team-members'),
+
+    path('contact-card-section/',Contact_card_section_view.as_view(),name='contact-card'),
+    path('contact-card-section/<int:pk>/',contact_card_section_Detail_view.as_view(),name='contact-card'),
+
+    path('contact/',Contact_view.as_view(),name='contact'),
+    path('contact/<int:pk>/',contact_Detail_view.as_view(),name='contact'),
+
+    path('social-media/',Social_media_view.as_view(),name='social-media'),
+    path('social-media/<int:pk>/',Social_media_Detail_view.as_view(),name='social-media'),
+
+    path('office-timings/',Office_time_view.as_view(),name='office-timings'),
+    path('office-timings/<int:pk>/',Office_time_Detail_view.as_view(),name='office-timings'),
+
+    path('services/',Services_view.as_view(),name='services'),
+    path('services/<int:pk>/',Services_detail_view.as_view(),name='services'),
+
+    path('service-faq/',Service_faq_view.as_view(),name='service-faq'),
+    path('service-faq/<int:pk>/',Service_faq_detail_view.as_view(),name='service-faq'),
+
+    path('blogs/',Blogs_view.as_view(),name='blogs'),
+    path('blogs/<int:pk>/',Blogs_detail_view.as_view(),name='blogs'),
+
+    path('users/',User_View.as_view(),name='user'),
+    path('upload-image/', upload_image),
+
+
 
 ]

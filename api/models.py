@@ -561,3 +561,8 @@ class General_faqs(models.Model):
 
     def __str__(self):
         return self.question
+    
+
+class UploadedImage(models.Model):
+    image = models.ImageField(upload_to='editor-uploads/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
