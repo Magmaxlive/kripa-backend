@@ -98,6 +98,10 @@ urlpatterns = [
     path('users/',User_View.as_view(),name='user'),
     path('upload-image/', upload_image),
 
+    path("theme/",       get_theme),
+    path("theme/update/", update_theme),
+    path("theme/reset/",  reset_theme),
+
 
 
 ]

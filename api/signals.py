@@ -45,9 +45,20 @@ from .models import (
     CareerPage,
     Terms_and_conditions,
     Important_information,
-    General_faqs
+    General_faqs,
+    ThemeSettings
     
 )
+
+def handle_themes(sender,instance,signal,**kwargs):
+    if signal == post_delete:
+        transaction.on_commit(lambda: notify_nextjs('theme'))
+    else:
+        notify_nextjs('theme')
+
+@receiver([post_save,post_delete],sender=ThemeSettings)
+def handle_theme(sender,instance,signal,**kwargs):
+    handle_themes(sender,instance,signal,**kwargs)
 
 def handle_footer(sender,instance,signal,**kwargs):
     if signal == post_delete:
@@ -75,7 +86,6 @@ def handle_disclosure_statement(sender,instance,signal,**kwargs):
 @receiver([post_save,post_delete],sender=Disclosure_statement)
 def handle_disclosure(sender,instance,signal,**kwargs):
     handle_disclosure_statement(sender,instance,signal,**kwargs)
-
         
 @receiver([post_save,post_delete],sender=Footer)
 def handle_footer_section(sender,instance,signal,**kwargs):

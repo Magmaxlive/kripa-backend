@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
+from admin_api.serializers import ThemeSettingsSerializer
 
 
 
@@ -223,3 +224,12 @@ class General_faq_view(generics.ListAPIView):
 class Service_category_list(generics.ListAPIView):
     serializer_class = Services_category_serializer
     queryset = Service_category.objects.all()
+
+
+class ThemeSettingsView(generics.RetrieveUpdateAPIView):
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = ThemeSettingsSerializer
+
+    def get_object(self):
+        obj, _ = ThemeSettings.objects.get_or_create(pk=1)
+        return obj

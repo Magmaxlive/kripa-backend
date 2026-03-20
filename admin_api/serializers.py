@@ -188,3 +188,11 @@ class User_serializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
+
+
+
+class ThemeSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = ThemeSettings
+        fields = "__all__"

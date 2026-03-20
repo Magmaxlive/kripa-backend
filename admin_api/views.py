@@ -429,3 +429,28 @@ def upload_image(request):
         return Response({"error": "No file"}, status=400)
     obj = UploadedImage.objects.create(image=file)
     return Response({"url": request.build_absolute_uri(obj.image.url)})
+
+
+@api_view(["GET"])
+# @permission_classes([AllowAny])
+def get_theme(request):
+    obj, _ = ThemeSettings.objects.get_or_create(pk=1)
+    return Response(ThemeSettingsSerializer(obj).data)
+ 
+@api_view(["PATCH"])
+# @permission_classes([IsAuthenticated])
+def update_theme(request):
+    obj, _ = ThemeSettings.objects.get_or_create(pk=1)
+    serializer = ThemeSettingsSerializer(obj, data=request.data, partial=True)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data)
+ 
+@api_view(["POST"])
+# @permission_classes([IsAuthenticated])
+def reset_theme(request):
+    obj, _ = ThemeSettings.objects.get_or_create(pk=1)
+    for field, value in DEFAULT_THEME.items():
+        setattr(obj, field, value)
+    obj.save()
+    return Response(ThemeSettingsSerializer(obj).data)

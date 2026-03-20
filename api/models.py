@@ -566,3 +566,32 @@ class General_faqs(models.Model):
 class UploadedImage(models.Model):
     image = models.ImageField(upload_to='editor-uploads/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+DEFAULT_THEME = {
+    "color_primary":    "#004539",
+    "color_secondary":  "#ffffff",
+    "color_accent":     "#d5ad67",
+    "color_neutral":    "#f8f6f2",
+    "color_text":       "#14181f",
+    "color_muted":      "#14181fcc",
+    "color_button_bg":  "#0045391a",
+    "color_video_bg":   "#0000000f",
+}
+ 
+class ThemeSettings(models.Model):
+    color_primary    = models.CharField(max_length=20, default=DEFAULT_THEME["color_primary"])
+    color_secondary  = models.CharField(max_length=20, default=DEFAULT_THEME["color_secondary"])
+    color_accent     = models.CharField(max_length=20, default=DEFAULT_THEME["color_accent"])
+    color_neutral    = models.CharField(max_length=20, default=DEFAULT_THEME["color_neutral"])
+    color_text       = models.CharField(max_length=20, default=DEFAULT_THEME["color_text"])
+    color_muted      = models.CharField(max_length=20, default=DEFAULT_THEME["color_muted"])
+    color_button_bg  = models.CharField(max_length=20, default=DEFAULT_THEME["color_button_bg"])
+    color_video_bg   = models.CharField(max_length=20, default=DEFAULT_THEME["color_video_bg"])
+    updated_at       = models.DateTimeField(auto_now=True)
+ 
+    def __str__(self):
+        return "Theme Settings"
+ 
+    class Meta:
+        verbose_name = "Theme Settings"

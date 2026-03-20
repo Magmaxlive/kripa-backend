@@ -48,7 +48,8 @@ urlpatterns = [
     path('subscribe/',Subsribe_view.as_view(),name='subscribe'),
 
     # general faqs
-    path('general_faqs/',General_faq_view.as_view(),name='general_faqs')
+    path('general_faqs/',General_faq_view.as_view(),name='general_faqs'),
+    path('theme/', ThemeSettingsView.as_view()),
 
 
 ]
