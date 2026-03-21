@@ -469,3 +469,15 @@ class Career_page_Detail_view(generics.RetrieveUpdateDestroyAPIView):
     queryset = CareerPage.objects.all()
     lookup_field = 'pk'
     # permission_classes = [permissions.IsAuthenticated]
+
+
+class General_faq_view(generics.ListCreateAPIView):
+    serializer_class = General_faq_serializer
+    queryset = General_faqs.objects.all()
+
+
+
+class General_faq_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = General_faq_serializer
+    queryset = General_faqs.objects.all()
+    lookup_field = 'pk'

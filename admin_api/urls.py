@@ -106,5 +106,9 @@ urlpatterns = [
     path('career-page/<int:pk>/',Career_page_Detail_view.as_view(),name='career-page'),
 
 
+    path('general-faqs/',General_faq_view.as_view(),name='general-faqs'),
+    path('general-faqs/<int:pk>/',General_faq_detail_view.as_view(),name='general-faqs'),
+
+
 
 ]

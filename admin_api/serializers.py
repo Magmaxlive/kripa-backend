@@ -203,3 +203,9 @@ class Career_page_Seriazlizer(serializers.ModelSerializer):
     class Meta:
         model = CareerPage
         fields = "__all__"
+
+
+class General_faq_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = General_faqs
+        fields = "__all__"
