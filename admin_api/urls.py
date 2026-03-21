@@ -110,5 +110,21 @@ urlpatterns = [
     path('general-faqs/<int:pk>/',General_faq_detail_view.as_view(),name='general-faqs'),
 
 
+    path('privacy-policy/',Privacy_policy_view.as_view(),name='privacy-policy'),
+    path('privacy-policy/<int:pk>/',Privacy_policy_detail_view.as_view(),name='privacy-policy'),
+
+
+    path('terms/',Terms_and_conditions_view.as_view(),name='terms'),
+    path('terms/<int:pk>/',Terms_and_conditions_detail_view.as_view(),name='terms'),
+
+
+    path('disclosure/',Disclosure_view.as_view(),name='disclosure'),
+    path('disclosure/<int:pk>/',Disclosure_detail_view.as_view(),name='disclosure'),
+
+
+    path('important/',Important_view.as_view(),name='important'),
+    path('important/<int:pk>/',Important_detail_view.as_view(),name='important'),
+
+
 
 ]

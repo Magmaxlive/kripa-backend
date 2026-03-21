@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
+from api.serializers import *
 
 # Create your views here.
 
@@ -480,4 +481,62 @@ class General_faq_view(generics.ListCreateAPIView):
 class General_faq_detail_view(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = General_faq_serializer
     queryset = General_faqs.objects.all()
+    lookup_field = 'pk'
+
+
+class Privacy_policy_view(generics.RetrieveAPIView):
+    serializer_class = Privacy_policy_serializer
+
+    def get_object(self):
+        queryset = Privacy_policy.objects.first()
+        return queryset
+
+
+class Privacy_policy_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Privacy_policy_serializer
+    queryset = Privacy_policy.objects.all()
+    lookup_field = 'pk'
+
+
+class Terms_and_conditions_view(generics.RetrieveAPIView):
+    serializer_class = Terms_serializer
+
+    def get_object(self):
+        queryset = Terms_and_conditions.objects.first()
+        return queryset
+
+
+class Terms_and_conditions_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Terms_serializer
+    queryset = Terms_and_conditions.objects.all()
+    lookup_field = 'pk'
+
+
+
+class Disclosure_view(generics.RetrieveAPIView):
+    serializer_class = Disclosure_serializer
+
+    def get_object(self):
+        queryset = Disclosure_statement.objects.first()
+        return queryset
+
+
+class Disclosure_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Disclosure_serializer
+    queryset = Disclosure_statement.objects.all()
+    lookup_field = 'pk'
+
+
+
+class Important_view(generics.RetrieveAPIView):
+    serializer_class = Important_information_serializer
+
+    def get_object(self):
+        queryset = Important_information.objects.first()
+        return queryset
+
+
+class Important_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Important_information_serializer
+    queryset = Important_information.objects.all()
     lookup_field = 'pk'
