@@ -102,6 +102,9 @@ urlpatterns = [
     path("theme/update/", update_theme),
     path("theme/reset/",  reset_theme),
 
+    path('career-page/',Career_Page_view.as_view(),name='career-page'),
+    path('career-page/<int:pk>/',Career_page_Detail_view.as_view(),name='career-page'),
+
 
 
 ]

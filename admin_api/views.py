@@ -454,3 +454,18 @@ def reset_theme(request):
         setattr(obj, field, value)
     obj.save()
     return Response(ThemeSettingsSerializer(obj).data)
+
+
+class Career_Page_view(generics.RetrieveAPIView):
+    serializer_class = Career_page_Seriazlizer
+
+    def get_object(self):
+        queryset = CareerPage.objects.first()
+        return queryset
+    
+
+class Career_page_Detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Career_page_Seriazlizer
+    queryset = CareerPage.objects.all()
+    lookup_field = 'pk'
+    # permission_classes = [permissions.IsAuthenticated]

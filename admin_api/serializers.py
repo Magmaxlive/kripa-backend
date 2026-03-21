@@ -196,3 +196,10 @@ class ThemeSettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model  = ThemeSettings
         fields = "__all__"
+
+
+
+class Career_page_Seriazlizer(serializers.ModelSerializer):
+    class Meta:
+        model = CareerPage
+        fields = "__all__"
