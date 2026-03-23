@@ -540,3 +540,39 @@ class Important_detail_view(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = Important_information_serializer
     queryset = Important_information.objects.all()
     lookup_field = 'pk'
+
+
+class Footer_View(generics.RetrieveAPIView):
+    serializer_class = Footer_Serializer
+
+    def get_object(self):
+        queryset = Footer.objects.first()
+        return queryset
+    
+
+class Footer_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Footer_Serializer
+    queryset = Footer.objects.all()
+    lookup_field = 'pk'
+
+
+class Footer_email_View(generics.ListCreateAPIView):
+    serializer_class = Footer_email_serializer
+    queryset = Footer_emails.objects.all()
+
+
+class Footer_email_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Footer_email_serializer
+    queryset = Footer_emails.objects.all()
+    lookup_field = 'pk'
+
+
+class Footer_links_View(generics.ListCreateAPIView):
+    serializer_class = Footer_links_serializer
+    queryset = Footer_links.objects.all()
+
+
+class Footer_links_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Footer_links_serializer
+    queryset = Footer_links.objects.all()
+    lookup_field = 'pk'

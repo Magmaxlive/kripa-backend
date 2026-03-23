@@ -105,25 +105,29 @@ urlpatterns = [
     path('career-page/',Career_Page_view.as_view(),name='career-page'),
     path('career-page/<int:pk>/',Career_page_Detail_view.as_view(),name='career-page'),
 
-
     path('general-faqs/',General_faq_view.as_view(),name='general-faqs'),
     path('general-faqs/<int:pk>/',General_faq_detail_view.as_view(),name='general-faqs'),
-
 
     path('privacy-policy/',Privacy_policy_view.as_view(),name='privacy-policy'),
     path('privacy-policy/<int:pk>/',Privacy_policy_detail_view.as_view(),name='privacy-policy'),
 
-
     path('terms/',Terms_and_conditions_view.as_view(),name='terms'),
     path('terms/<int:pk>/',Terms_and_conditions_detail_view.as_view(),name='terms'),
-
 
     path('disclosure/',Disclosure_view.as_view(),name='disclosure'),
     path('disclosure/<int:pk>/',Disclosure_detail_view.as_view(),name='disclosure'),
 
-
     path('important/',Important_view.as_view(),name='important'),
     path('important/<int:pk>/',Important_detail_view.as_view(),name='important'),
+
+    path('footer/',Footer_View.as_view(),name='footer'),
+    path('footer/<int:pk>/',Footer_detail_view.as_view(),name='footer'),
+
+    path('footer-emails/',Footer_email_View.as_view(),name='footer-emails'),
+    path('footer-emails/<int:pk>/',Footer_email_detail_view.as_view(),name='footer-emails'),
+
+    path('footer-links/',Footer_links_View.as_view(),name='footer-links'),
+    path('footer-links/<int:pk>/',Footer_links_detail_view.as_view(),name='footer-links'),
 
 
 
