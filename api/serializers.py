@@ -323,7 +323,7 @@ class Menu_serializer(serializers.ModelSerializer):
     
     class Meta:
         model = Menu
-        fields = ['id','label','link','submenu']
+        fields = ['id','label','link','submenu','order','is_active','parent']
         
     def get_submenu(self,obj):
         children = obj.submenu.filter(is_active=True).order_by('order')

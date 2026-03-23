@@ -576,3 +576,29 @@ class Footer_links_detail_view(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = Footer_links_serializer
     queryset = Footer_links.objects.all()
     lookup_field = 'pk'
+
+
+
+class Header_View(generics.RetrieveAPIView):
+    serializer_class = Header_serializer
+
+    def get_object(self):
+        queryset = Header.objects.first()
+        return queryset
+    
+
+class Header_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Header_serializer
+    queryset = Header.objects.all()
+    lookup_field = 'pk'
+
+
+class Header_menu_View(generics.ListCreateAPIView):
+    serializer_class = Menu_serializer
+    queryset = Menu.objects.all()
+
+
+class Header_Menu_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Menu_serializer
+    queryset = Menu.objects.all()
+    lookup_field = 'pk'

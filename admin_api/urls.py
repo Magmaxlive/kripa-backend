@@ -129,6 +129,13 @@ urlpatterns = [
     path('footer-links/',Footer_links_View.as_view(),name='footer-links'),
     path('footer-links/<int:pk>/',Footer_links_detail_view.as_view(),name='footer-links'),
 
+    path('header/',Header_View.as_view(),name='header'),
+    path('header/<int:pk>/',Header_detail_view.as_view(),name='header'),
+
+
+    path('menu/',Header_menu_View.as_view(),name='menu'),
+    path('menu/<int:pk>/',Header_Menu_detail_view.as_view(),name='menu'),
+
 
 
 ]
