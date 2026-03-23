@@ -9,9 +9,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from api.serializers import *
+from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 # Create your views here.
 
+class Pagination(PageNumberPagination):
+    page_size = 10
 class Hero_content_view(generics.RetrieveAPIView):
     serializer_class = Hero_content_Serializer
     # permission_classes = [permissions.IsAuthenticated]
@@ -602,3 +607,48 @@ class Header_Menu_detail_view(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = Menu_serializer
     queryset = Menu.objects.all()
     lookup_field = 'pk'
+
+
+class Job_applications_View(generics.ListAPIView):
+    serializer_class = Job_application_Serializer
+    queryset = JobApplication.objects.all()
+    pagination_class = Pagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['status']
+    search_fields = ['first_name', 'last_name', 'email', 'position']
+
+
+
+class Job_application_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Job_application_Serializer
+    queryset = JobApplication.objects.all()
+    lookup_field = 'pk'
+
+
+class Enquiries_View(generics.ListAPIView):
+    serializer_class = Enquiry_Serializer
+    queryset = EnquiryForm.objects.all()
+    pagination_class = Pagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['status']
+    search_fields = ['full_name', 'email', 'service']
+
+
+class Enquiries_detail_view(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Enquiry_Serializer
+    queryset = EnquiryForm.objects.all()
+    lookup_field = 'pk'
+
+
+
+class Subscribers_View(generics.ListCreateAPIView):
+    serializer_class = Subsribers_serializer
+    queryset = Subscriber.objects.all().order_by('id')
+    pagination_class = Pagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['email']
+
+class Subscriber_Detail_View(generics.DestroyAPIView):
+    serializer_class = Subsribers_serializer
+    queryset = Subscriber.objects.all()
+    # permission_classes = [IsAuthenticated]

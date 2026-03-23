@@ -132,9 +132,17 @@ urlpatterns = [
     path('header/',Header_View.as_view(),name='header'),
     path('header/<int:pk>/',Header_detail_view.as_view(),name='header'),
 
-
     path('menu/',Header_menu_View.as_view(),name='menu'),
     path('menu/<int:pk>/',Header_Menu_detail_view.as_view(),name='menu'),
+
+    path('job-applications/',Job_applications_View.as_view(),name='job-applications'),
+    path('job-applications/<int:pk>/',Job_application_detail_view.as_view(),name='job-applications'),
+
+    path('enquiries/',Enquiries_View.as_view(),name='enquiries'),
+    path('enquiries/<int:pk>/',Enquiries_detail_view.as_view(),name='enquiries'),
+
+    path('subscribers/',Subscribers_View.as_view(),name='subscribers'),
+    path('subscribers/<int:pk>/',Subscriber_Detail_View.as_view(),name='subscribers'),
 
 
 
